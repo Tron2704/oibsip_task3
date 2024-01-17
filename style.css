@@ -1,0 +1,512 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    transition: all 0.8s ease;
+}
+
+body {
+    background-image: linear-gradient(to bottom right, black, grey);
+    margin: 0;
+}
+
+.container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.to-do {
+    position: relative;
+    height: auto;
+    width: auto;
+    padding: 20px;
+    border: 2px solid rgb(46, 46, 46);
+    border-radius: 20px;
+    box-shadow: 0 0 50px #000;
+    display: flex;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.theme-head-small {
+    display: none;
+}
+
+.partition {
+    padding: 20px;
+    border: 1px solid gray;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.partition li {
+    list-style-type: none;
+}
+
+.partition.create,
+.partition.pending,
+.partition.completed {
+    width: 500px;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    overflow-y: auto;
+}
+
+.task-input-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.create h2 {
+    font-family: 'Rubik Doodle Shadow', system-ui;
+    font-size: 24px;
+    color: black;
+}
+
+.create h3 {
+    font-family: 'Dancing Script', cursive;
+    margin-top: 20px;
+    font-size: 18px;
+    color: black;
+}
+
+input[type="text"] {
+    font-family: 'Lemon', serif;
+    text-align: center;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"]::placeholder {
+    color: black; 
+}
+
+.add {
+    font-family: 'Lemon', serif;
+    margin-top: 20px;
+    color: black;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+.message-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    position: fixed;
+    bottom: 20px;
+    width: 100%;
+    z-index: 9999;
+}
+
+.message {
+    font-family: 'Kalam', cursive;
+    display: none;
+    text-align: center;
+    width: fit-content;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px #000;
+    background-color: #dbdbdb;
+    transition: opacity 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+.message.fade-in {
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+}
+
+.message.fade-out {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+button.delete {
+    font-size: 12px;
+    font-family: 'Mochiy Pop P One', sans-serif;
+    background-color: #ff4444;
+    color: white;
+}
+
+button.complete {
+    font-size: 12px;
+    font-family: 'Mochiy Pop P One', sans-serif;
+    background-color: #007bff;
+    color: white;
+}
+
+.pending h2 , .completed h2{
+    font-family: 'Rubik Doodle Shadow', system-ui;
+}
+#pendingTasksTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: 'Arial', sans-serif;
+    font-size: 0.8rem;
+}
+
+#pendingTasksTable th {
+    font-family: 'Gorditas', serif;
+    background-color: #dbdbdb;
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+
+#pendingTasksTable td {
+    font-family: 'Kurale', serif;
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+button.complete {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 10px;
+    cursor: pointer;
+}
+
+button.delete {
+    background-color: #ff4444;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 6px 10px;
+    cursor: pointer;
+}
+
+#completedTasksTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: 'Arial', sans-serif;
+    font-size: 0.8rem;
+}
+
+#completedTasksTable th {
+    font-family: 'Gorditas', serif;
+    background-color: #dbdbdb;
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+#completedTasksTable td {
+    font-family: 'Kurale', serif;
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+.option-btn {
+    font-family: 'Gorditas', serif;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 5px;
+    color: black;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.option-btn svg {
+    margin-right: 5px;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.theme-head h3 {
+    font-family: 'Rubik Doodle Shadow', system-ui;
+    color: grey;
+}
+
+.theme-head-small {
+    font-family: 'Rubik Doodle Shadow', system-ui;
+    color: grey;
+}
+
+.options h3 {
+    position: relative;
+    bottom: 96px;
+    right: 30px;
+}
+
+.theme-toggle.bigone {
+    position: relative;
+    bottom: 112px;
+    left: 40px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.theme-toggle.present::before {
+    content: '';
+    height: 60px;
+    width: 60px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-image: url('Resources/pikachu-seeklogo.com.svg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+}
+
+.theme-toggle::before {
+    content: '';
+    height: 60px;
+    width: 60px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background-image: url('Resources/pngegg.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+    z-index: -1;
+}
+
+.to-do input[type="text"] {
+    background-color: black;
+    color: white;
+    border: 1px solid black;
+}
+
+.to-do.dark input[type="text"] {
+    background-color: #8e775e;
+    color: black;
+    border: 1px solid #5c3613;
+}
+
+.to-do.dark .option-btn {
+    background-color: #f6ad3a;
+}
+
+.to-do .option-btn {
+    background-color: #ffe62d;
+}
+
+.to-do.dark .add {
+    background-color: white;
+}
+
+.to-do .add {
+    background-color: #e92929;
+}
+
+.to-do.dark .create {
+    background-color: #f6ad3a;
+}
+
+.to-do .create {
+    background-color: #f4dc26;
+}
+
+.to-do.dark .pending {
+    background-color: #f6ad3a;
+}
+
+.to-do .pending {
+    background-color: #f4dc26;
+}
+
+.to-do.dark .completed {
+    background-color: #f6ad3a;
+}
+
+.to-do .completed {
+    background-color: #f4dc26;
+}
+
+.to-do.dark .options {
+    background-color: #5c3613;
+}
+
+.to-do .options {
+    background-color: black;
+}
+
+
+/* --------------------- */
+
+@media screen and (max-width: 768px) {
+    .container {
+        height: 100vh;
+        width: 100vw;
+    }
+
+    .to-do {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        height: 100vh;
+        width: 100vw;
+        margin-bottom: 0px;
+    }
+
+    .options {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        width: 500px;
+    }
+
+    .theme-head {
+        display: none;
+    }
+
+    .bigone {
+        position: relative;
+        bottom: 85px !important;
+        left: 250px !important;
+    }
+
+    .option-btn {
+        margin-bottom: 0px;
+    }
+
+    .theme-head-small {
+        display: flex;
+        margin-bottom: 25px;
+    }
+
+    .theme-toggle::before {
+        height: 40px !important;
+        width: 40px !important;
+    }
+
+    .theme-toggle.present::before {
+        height: 40px !important;
+        width: 40px !important;
+    }
+
+    
+
+}
+
+@media screen and (max-width: 530px) {
+    .container {
+        height: 100vh;
+        width: 100vw;
+    }
+
+    .partition {
+        width: 90vw;
+    }
+
+    .partition.create,
+    .partition.pending,
+    .partition.completed {
+        width: 90vw;
+        height: 500px;
+    }
+
+    .options {
+        gap: 10px;
+    }
+
+    .option-btn {
+        margin: 0px;
+        font-size: 12px;
+        width: auto;
+    }
+
+    .option-btn svg {
+        height: 15px;
+        width: 15px;
+    }
+
+    .bigone {
+        position: relative;
+        bottom: 83px !important;
+        left: 225px !important;
+    }
+
+}
+
+@media screen and (max-width: 375px) {
+    .option-btn {
+        margin: 0px;
+        font-size: 10px;
+        width: auto;
+        padding: 10px;
+        gap: 1px;
+    }
+
+    button.complete {
+        padding: 4px 5px;
+    }
+    
+    button.delete {
+        padding: 4px 5px;
+    }
+
+    .bigone {
+        position: relative;
+        bottom: 80px !important;
+        left: 190px !important;
+    }
+
+}
